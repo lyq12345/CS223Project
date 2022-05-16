@@ -23,4 +23,6 @@ INSERT INTO public.users (id, username, password) VALUES (3, 'wangwu', '12345');
 修改db连接配置：
 src/main/resources/application.yml
 
+测试类在src/test/java/com/team8/cs223project/Cs223ProjectApplicationTests.java里
+
 
