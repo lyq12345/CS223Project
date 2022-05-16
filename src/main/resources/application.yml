@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    dynamic:
+      primary: leader #default datasource
+      strict: false
+      datasource:
+        leader:
+          url: jdbc:postgresql://localhost:5432/leader
+          username: postgres
+          password: lyq990515
+          driver-class-name: org.postgresql.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+        follower1:
+          url: jdbc:postgresql://localhost:5432/follower1
+          username: postgres
+          password: lyq990515
+          driver-class-name: org.postgresql.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
+        follower2:
+          url: jdbc:postgresql://localhost:5432/follower2
+          username: postgres
+          password: lyq990515
+          driver-class-name: org.postgresql.Driver
+          type: com.alibaba.druid.pool.DruidDataSource
