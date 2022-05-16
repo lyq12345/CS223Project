@@ -23,6 +23,9 @@ INSERT INTO public.users (id, username, password) VALUES (3, 'wangwu', '12345');
 修改db连接配置：
 src/main/resources/application.yml
 
+切换数据源：
+在service类或方法前加上注解`@DS("dbsouceName")`
+
 测试类在src/test/java/com/team8/cs223project/Cs223ProjectApplicationTests.java里
 
 
