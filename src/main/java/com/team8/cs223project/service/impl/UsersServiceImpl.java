@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+//@DS("follower2")
 public class UsersServiceImpl implements UsersService {
 
     @Resource
