@@ -1,4 +1,10 @@
+## 服务端口
+#  server.port=8201
 spring:
+  application:
+    name: CS223Project
+  profiles:
+    active: dev
   datasource:
     dynamic:
       primary: leader #default datasource
@@ -22,3 +28,10 @@ spring:
           password: lyq990515
           driver-class-name: org.postgresql.Driver
           type: com.alibaba.druid.pool.DruidDataSource
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#
+#logging:
+#  config: classpath:logback-spring.xml

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @MapperScan("com.team8.cs223project.mapper")
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class Cs223ProjectApplication {
 
     public static void main(String[] args) {

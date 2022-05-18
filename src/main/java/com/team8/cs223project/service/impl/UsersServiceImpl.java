@@ -22,4 +22,13 @@ public class UsersServiceImpl implements UsersService {
         List<Users> users = userMapper.selectList(null);
         System.out.println(users);
     }
+
+    @Override
+    public void insertUser(Integer id, String username, String pwd) {
+        Users user = new Users();
+        user.setId(id);
+        user.setPassword(pwd);
+        user.setUsername(username);
+        userMapper.insert(user);
+    }
 }

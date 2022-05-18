@@ -30,4 +30,9 @@ class Cs223ProjectApplicationTests {
     public void testSelect1() {
     }
 
+    @Test
+    public void testAdd() {
+        usersService.insertUser(6, "xiaofang", "123456");
+    }
+
 }
