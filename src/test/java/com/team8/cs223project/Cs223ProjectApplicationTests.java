@@ -1,6 +1,7 @@
 package com.team8.cs223project;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.team8.cs223project.controller.TransactionController;
 import com.team8.cs223project.entity.DataItem;
 import com.team8.cs223project.entity.Users;
 import com.team8.cs223project.mapper.UserMapper;
@@ -8,6 +9,7 @@ import com.team8.cs223project.service.DataItemService;
 import com.team8.cs223project.service.UsersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -48,8 +50,26 @@ class Cs223ProjectApplicationTests {
 
     @Test
     public void writeOperation(){
-        dataItemService.writeItemValue("z", 3);
+        dataItemService.writeItemValue("z", 99);
         dataItemService.writeItemValue("y", 0);
+        throw new RuntimeException();
+    }
+
+    @Test
+    public void transactionOCCTest(){
+        TransactionManager tc = new TransactionManager("src/test/java/com/team8/cs223project/sequences.txt");
+        tc.run();
+    }
+
+    @Test
+    public void testObject(){
+        com.team8.cs223project.utils.Test t1 = new com.team8.cs223project.utils.Test();
+        com.team8.cs223project.utils.Test t2 = null;
+        t2 = t1;
+        t2.v++;
+        System.out.println(t1.v);
+        System.out.println(t2.v);
+
     }
 
 }
