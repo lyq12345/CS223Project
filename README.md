@@ -28,4 +28,18 @@ src/main/resources/application.yml
 
 测试类在src/test/java/com/team8/cs223project/Cs223ProjectApplicationTests.java里
 
+新表"
+```
+create table data_item
+(
+    key   varchar(100)
+        constraint data_item_pk
+            primary key,
+    value int not null
+);
 
+create unique index data_item_key_uindex
+    on data_item (key);
+
+
+```
