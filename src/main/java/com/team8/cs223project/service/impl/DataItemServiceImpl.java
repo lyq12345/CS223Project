@@ -6,6 +6,7 @@ import com.team8.cs223project.entity.DataItem;
 import com.team8.cs223project.mapper.DataItemMapper;
 import com.team8.cs223project.service.DataItemService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -34,5 +35,15 @@ public class DataItemServiceImpl implements DataItemService {
         }else{
             dataItemMapper.update(item, queryWrapper);
         }
+    }
+
+    @Override
+//    @Transactional
+    public synchronized void transactionWithSychronized() {
+        QueryWrapper<DataItem> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("key", "x");
+        DataItem item = dataItemMapper.selectOne(queryWrapper);
+        item.setValue(item.getValue() + 1);
+        dataItemMapper.update(item, queryWrapper);
     }
 }
