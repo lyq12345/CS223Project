@@ -1,9 +1,14 @@
 package com.team8.cs223project.utils;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.team8.cs223project.entity.DataItem;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -23,7 +28,20 @@ public class Transaction {
     private Timestamp finishTS;
     HashMap<String, DataItem> data;
 
-    public Transaction(String schedule, HashMap<String, DataItem> data){
+    public Transaction(String schedule, HashMap<String, DataItem> data) {
+
+        DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date myDate1 = null;
+        try{
+            myDate1 = dateFormat1.parse("3000-01-01");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Timestamp FAR_FUTURE_TIME = new Timestamp(myDate1.getTime());
+        startTS = FAR_FUTURE_TIME;
+        validationTS = FAR_FUTURE_TIME;
+        finishTS = FAR_FUTURE_TIME;
+
         this.data = data;
         if(schedule != null){
             this.parse(schedule);
@@ -107,11 +125,11 @@ public class Transaction {
     }
 
     public void log(){
-        System.out.println(this.name + ": ");
+        System.out.print(this.name + ": ");
         int i = this.ptr;
         int n = this.ops.size();
         if(i == n)
-            System.out.println("No more operation.");
+            System.out.print("No more operation.");
         while(i < n){
             this.ops.get(i).log();
             i++;
@@ -147,8 +165,32 @@ public class Transaction {
         return finishTS;
     }
 
+    public void setStartTS(Timestamp startTS) {
+        this.startTS = startTS;
+    }
+
+    public void setValidationTS(Timestamp validationTS) {
+        this.validationTS = validationTS;
+    }
+
     public int getPtr(){
         return ptr;
+    }
+
+    public void setPtr(int ptr) {
+        this.ptr = ptr;
+    }
+
+    public void setData(HashMap<String, DataItem> data) {
+        this.data = data;
+    }
+
+    public HashMap<String, DataItem> getData() {
+        return data;
+    }
+
+    public void setFinishTS(Timestamp finishTS) {
+        this.finishTS = finishTS;
     }
 
     @Override

@@ -11,4 +11,8 @@ public class DataItem {
         this.key = key;
         this.value = value;
     }
+
+    public void log(){
+        System.out.print("|" + key + ":"+value+"|");
+    }
 }

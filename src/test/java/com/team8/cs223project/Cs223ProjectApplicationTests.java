@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @SpringBootTest
@@ -57,7 +58,8 @@ class Cs223ProjectApplicationTests {
 
     @Test
     public void transactionOCCTest(){
-        TransactionManager tc = new TransactionManager("src/test/java/com/team8/cs223project/sequences.txt");
+        TransactionManager tc = new TransactionManager();
+        tc.load("src/test/java/com/team8/cs223project/sequences.txt");
         tc.run();
     }
 
@@ -70,6 +72,28 @@ class Cs223ProjectApplicationTests {
         System.out.println(t1.v);
         System.out.println(t2.v);
 
+    }
+
+    @Test void testIntersection(){
+        HashSet<String> set1 = new HashSet<String>() {
+            {
+                add("x");
+                add("y");
+                add("z");
+            }
+        };
+        HashSet<String> set2 = new HashSet<String>() {
+            {
+                add("a");
+                add("b");
+                add("x");
+            }
+        };
+
+        HashSet<String> intersection = new HashSet<>();
+        intersection.addAll(set1);
+        intersection.retainAll(set2);
+        System.out.println(intersection.isEmpty());
     }
 
 }

@@ -1,12 +1,19 @@
 package com.team8.cs223project;
 
 import com.team8.cs223project.entity.DataItem;
+import com.team8.cs223project.service.DataItemService;
+import com.team8.cs223project.service.impl.DataItemServiceImpl;
 import com.team8.cs223project.utils.Operation;
 import com.team8.cs223project.utils.Transaction;
-import io.swagger.models.auth.In;
+import javafx.util.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.io.*;
 import java.util.*;
+
 
 public class TransactionManager {
     private HashMap<String, DataItem> data = new HashMap<>();
@@ -18,9 +25,22 @@ public class TransactionManager {
     public static final String WRITE = "W";
     public static final String READ = "R";
 
-    public TransactionManager(String filename){
-        this.load(filename);
-    }
+    @Resource
+    protected DataItemService dataItemService = new DataItemServiceImpl();
+
+//    @Autowired
+//    private static TransactionManager transactionManager;
+//
+//    @PostConstruct
+//    public void init() {
+//        transactionManager = this;
+//        transactionManager.dataItemService = this.dataItemService;
+//    }
+
+
+//    public TransactionManager(){
+////        this.load(filename);
+//    }
 
     public void load(String filename){
         try {
@@ -42,9 +62,6 @@ public class TransactionManager {
                 this.txns.put(txn.getName(), txn);
             }
 
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,12 +99,34 @@ public class TransactionManager {
 
     public void run(){
         while(true){
-//            this.log();
+            this.log();
             Transaction txn = this.chooseTxn();
             if(txn != null){
-                System.out.println(txn.getName() + "-");
+                System.out.print("execute: " + txn.getName() + "-");
                 txn.next().log();
-                this.exec(txn);
+                System.out.println();
+                Pair<String, HashMap<String, DataItem>> pair = dataItemService.processTransaction(txn);
+                String message = pair.getKey();
+                HashMap<String, DataItem> data = pair.getValue();
+                if(message.equals("COMMITTED")){
+                    // update unstarted transacitons' data
+                    for(String key: this.txns.keySet()){
+                        if(this.txns.get(key).getPtr() == 0)
+                            this.txns.get(key).setData(data);
+                    }
+
+                    //add to commited list
+                    //log
+                    this.commits.add(txn);
+
+                    //if it has been rolled back before, remove it from rollback record
+                    if(this.rollbacks.contains(txn)){
+                        this.rollbacks.remove(txn);
+                    }
+                } else if(message.equals("ABORT")){
+                    if(!this.rollbacks.contains(txn))
+                        this.rollbacks.add(txn);
+                }
                 System.out.println();
             }else{
                 System.out.println();
@@ -95,20 +134,9 @@ public class TransactionManager {
             }
 
         }
+
+        // TODO: print final schedule
+        System.out.println("Schedule generated: ");
     }
-
-    public void exec(Transaction txn){
-        Operation op = txn.exec();
-        String opType = op.getOpType();
-        String key = op.getKey();
-//        if(opType.equals(READ))
-//            this.
-
-        if(opType.equals(COMMIT)){
-            //假设成功
-            this.commits.add(txn);
-        }
-    }
-
 
 }

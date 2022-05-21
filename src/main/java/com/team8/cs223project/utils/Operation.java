@@ -27,11 +27,11 @@ public class Operation {
 
     public void log(){
         if(this.opType.equals(COMMIT))
-            System.out.println(this.opType + ";");
+            System.out.print(this.opType + ";");
         if(this.opType.equals(READ))
-            System.out.println(String.format("%s(%s);", this.opType, this.key));
+            System.out.print(String.format("%s(%s);", this.opType, this.key));
         if(this.opType.equals(WRITE))
-            System.out.println(String.format("%s(%s=%d);", this.opType, this.key, this.value));
+            System.out.print(String.format("%s(%s=%d);", this.opType, this.key, this.value));
     }
 
     public String getOpType() {
